@@ -1,6 +1,5 @@
 let gameState = "intro";
 
-
 // ===== START COUNTDOWN (5 sec) =====
 let startCountdownTime = 5;
 let startCountdownInterval = null;
@@ -26,7 +25,6 @@ function startCountdown() {
   }, 1000);
 }
 
-
 // ===== GAME TIMER (30 sec) =====
 let gameTime = 30;
 let gameTimerInterval = null;
@@ -51,4 +49,11 @@ function startGame() {
       endGame();
     }
   }, 1000);
+}
+
+// ===== GAME OVER =====
+function endGame() {
+  gameState = "gameover";
+
+  alert("Game Over!\nYour score: " + score);
 }
