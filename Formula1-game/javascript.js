@@ -57,3 +57,9 @@ function endGame() {
 
   alert("Game Over!\nYour score: " + score);
 }
+
+
+// ===== SCORE UPDATEN =====
+function updateScore() {
+  document.getElementById("score").innerText = "Your score: " + score;
+}
