@@ -3,6 +3,17 @@ const URL = "./tm-model/";
 
 let model, webcam, labelContainer, maxPredictions;
 
+
+// ===== TEAM COLORS =====
+const teamColors = {
+  Ferrari: "red",
+  RedBull: "blue",
+  Mercedes: "turquoise",
+  McLaren: "orange"
+};
+
+
+
 async function init() {
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
