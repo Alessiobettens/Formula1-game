@@ -37,6 +37,7 @@ async function predict() {
       prediction[i].className + ": " + prediction[i].probability.toFixed(2);
   }
 
+  // START GAME
   if (gameState === "intro") {
     for (let i = 0; i < maxPredictions; i++) {
       if (prediction[i].probability > 0.9) {
@@ -46,7 +47,15 @@ async function predict() {
     }
   }
 
+  // SCORE VERHOGEN
   if (gameState === "playing") {
+    for (let i = 0; i < prediction.length; i++) {
+      if (prediction[i].probability > 0.9) {
+        score++;
+        updateScore();
+        break;
+      }
+    }
   }
 }
 
