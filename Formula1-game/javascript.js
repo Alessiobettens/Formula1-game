@@ -2,17 +2,15 @@
 const URL = "./tm-model/";
 
 let model, webcam, labelContainer, maxPredictions;
-
+let detectedTeam = null;
 
 // ===== TEAM COLORS =====
 const teamColors = {
   Ferrari: "red",
   RedBull: "blue",
   Mercedes: "turquoise",
-  McLaren: "orange"
+  McLaren: "orange",
 };
-
-
 
 async function init() {
   const modelURL = URL + "model.json";
@@ -43,30 +41,28 @@ async function loop() {
 async function predict() {
   const prediction = await model.predict(webcam.canvas);
 
+  let detectedTeam = null;
+
   for (let i = 0; i < maxPredictions; i++) {
     labelContainer.childNodes[i].innerHTML =
       prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-  }
 
-  // START GAME
-  if (gameState === "intro") {
-    for (let i = 0; i < maxPredictions; i++) {
-      if (prediction[i].probability > 0.9) {
-        startCountdown();
-        break;
-      }
+    if (prediction[i].probability > 0.9) {
+      detectedTeam = prediction[i].className;
     }
   }
 
-  // SCORE VERHOGEN
-  if (gameState === "playing") {
-    for (let i = 0; i < prediction.length; i++) {
-      if (prediction[i].probability > 0.9) {
-        score++;
-        updateScore();
-        break;
-      }
-    }
+  // Intro: countdown starten
+  if (gameState === "intro" && detectedTeam !== null) {
+    gameState = "countdown";
+    startCountdown();
+  }
+
+  // Playing: score verhogen
+  if (gameState === "playing" && detectedTeam !== null) {
+    score++;
+    updateScore();
+    gameState = "cooldown";
   }
 }
 
