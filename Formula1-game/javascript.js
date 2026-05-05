@@ -7,6 +7,8 @@ let detectedTeam = null;
 let lastScoreTime = 0;
 const SCORE_COOLDOWN_MS = 2000;
 
+let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
+
 // ===== TEAM COLORS =====
 const teamColors = {
   Ferrari: "red",
@@ -63,11 +65,13 @@ async function predict() {
 
   // Playing: score verhogen
   if (gameState === "playing" && detectedTeam !== null) {
-    score++;
-    updateScore();
-    lastScoreTime = now;
+    if (detectedTeam === currentTeam){
+      score++;
+      updateScore();
+    }
+    //lastScoreTime = now;
+    gameState = "cooldown";
   }
-  gameState = "cooldown";
 
   // Cooldown: wachten tot object weg is
   if (gameState === "cooldown" && detectedTeam === null) {
