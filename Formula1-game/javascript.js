@@ -29,13 +29,25 @@ async function loop() {
   window.requestAnimationFrame(loop);
 }
 
+
 async function predict() {
   const prediction = await model.predict(webcam.canvas);
+
   for (let i = 0; i < maxPredictions; i++) {
     labelContainer.childNodes[i].innerHTML =
       prediction[i].className + ": " + prediction[i].probability.toFixed(2);
   }
+
+  
+  if (gameState === "intro") {
+    
+  }
+
+  if (gameState === "playing") {
+    
+  }
 }
+
 
 
 
