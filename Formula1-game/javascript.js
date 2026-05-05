@@ -29,7 +29,6 @@ async function loop() {
   window.requestAnimationFrame(loop);
 }
 
-
 async function predict() {
   const prediction = await model.predict(webcam.canvas);
 
@@ -38,23 +37,21 @@ async function predict() {
       prediction[i].className + ": " + prediction[i].probability.toFixed(2);
   }
 
-  
   if (gameState === "intro") {
-    
+    for (let i = 0; i < maxPredictions; i++) {
+      if (prediction[i].probability > 0.9) {
+        startCountdown();
+        break;
+      }
+    }
   }
 
   if (gameState === "playing") {
-    
   }
 }
 
-
-
-
 // ===== GAME STATE =====
 let gameState = "intro";
-
-
 
 // ===== START COUNTDOWN (5 sec) =====
 let startCountdownTime = 5;
@@ -80,8 +77,6 @@ function startCountdown() {
     }
   }, 1000);
 }
-
-
 
 // ===== GAME TIMER (30 sec) =====
 let gameTime = 30;
@@ -109,8 +104,6 @@ function startGame() {
   }, 1000);
 }
 
-
-
 // ===== GAME OVER =====
 function endGame() {
   gameState = "gameover";
@@ -121,8 +114,6 @@ function endGame() {
   // - QR-code tonen
   // - eindscore opslaan
 }
-
-
 
 // ===== SCORE UPDATEN =====
 function updateScore() {
