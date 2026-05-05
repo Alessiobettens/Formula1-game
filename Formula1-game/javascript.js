@@ -64,6 +64,11 @@ async function predict() {
     updateScore();
     gameState = "cooldown";
   }
+
+  // Cooldown: wachten tot object weg is
+  if (gameState === "cooldown" && detectedTeam === null) {
+    gameState = "playing";
+  }
 }
 
 // ===== GAME STATE =====
