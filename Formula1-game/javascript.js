@@ -4,6 +4,9 @@ const URL = "./tm-model/";
 let model, webcam, labelContainer, maxPredictions;
 let detectedTeam = null;
 
+let lastScoreTime = 0;
+const SCORE_COOLDOWN_MS = 2000;
+
 // ===== TEAM COLORS =====
 const teamColors = {
   Ferrari: "red",
@@ -62,8 +65,9 @@ async function predict() {
   if (gameState === "playing" && detectedTeam !== null) {
     score++;
     updateScore();
-    gameState = "cooldown";
+    lastScoreTime = now;
   }
+  gameState = "cooldown";
 
   // Cooldown: wachten tot object weg is
   if (gameState === "cooldown" && detectedTeam === null) {
