@@ -1,0 +1,9 @@
+.correct {
+  background-color: #8cff8c; /* lichtgroen */
+  border: 2px solid green;
+}
+
+.wrong {
+  background-color: #ff9c9c; /* lichtrood */
+  border: 2px solid red;
+}
