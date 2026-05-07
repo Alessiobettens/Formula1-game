@@ -1,32 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Formula 1 game</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Formula 1 game</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Formula 1 game</h1>
+    <button onclick="init()">Start</button>
 
-<h1>Formula 1 game</h1>
-<button onclick="init()">Start</button>
+    <div id="countdown"></div>
+    <div id="time"></div>
+    <div id="score">Your score: 0</div>
 
-<div id="countdown"></div>
-<div id="time"></div>
-<div id="score">Your score: 0</div>
+    <div id="current-team">Current team: Ferrari</div>
+    <div id="detected-team">Detected: geen team</div>
+    <p>
+      Laat een teamlogo of -kleur zien voor de camera. De voorspellingen
+      hieronder laten zien wat het model herkent.
+    </p>
 
-<div id="current-team">Current team: Ferrari</div>
+    <div id="webcam-container"></div>
+    <div id="label-container"></div>
 
-<div id="webcam-container"></div>
-<div id="label-container"></div>
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 
-<!-- Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-
-
-
-
-<!-- Jouw JS -->
-<script src="javascript.js"></script>
-
-</body>
+    <!-- Jouw JS -->
+    <script src="javascript.js"></script>
+  </body>
 </html>

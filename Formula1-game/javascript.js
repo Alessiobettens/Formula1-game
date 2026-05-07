@@ -6,8 +6,8 @@ let detectedTeam = null;
 let cooldownActive = false;
 
 let lastScoreTime = 0;
-const SCORE_COOLDOWN_MS = 2000;
-const TEAM_CHANGE_DELAY = 3000; // 3 seconden
+const SCORE_COOLDOWN_MS = 1000;
+const TEAM_CHANGE_DELAY = 2000; // 2 seconden
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
 
@@ -53,14 +53,34 @@ async function predict() {
   const prediction = await model.predict(webcam.canvas);
 
   let detectedTeam = null;
+  let bestProb = 0;
 
   for (let i = 0; i < maxPredictions; i++) {
+    const prob = prediction[i].probability;
     labelContainer.childNodes[i].innerHTML =
-      prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+      prediction[i].className + ": " + prob.toFixed(2);
 
-    if (prediction[i].probability > 0.8) {
+    if (prob > bestProb) {
+      bestProb = prob;
       detectedTeam = prediction[i].className;
     }
+  }
+
+  const detectEl = document.getElementById("detected-team");
+  if (bestProb > 0.5) {
+    detectEl.innerText =
+      "Detected: " + detectedTeam + " (" + bestProb.toFixed(2) + ")";
+    console.log(
+      "Match check - Current:",
+      currentTeam,
+      "| Detected:",
+      detectedTeam,
+      "| Equal:",
+      currentTeam === detectedTeam,
+    );
+  } else {
+    detectedTeam = null;
+    detectEl.innerText = "Detected: geen team (" + bestProb.toFixed(2) + ")";
   }
 
   // Intro: countdown starten
@@ -74,6 +94,9 @@ async function predict() {
     if (detectedTeam === currentTeam) {
       score++;
       updateScore();
+      showFeedback(true);
+    } else {
+      showFeedback(false);
     }
 
     gameState = "cooldown";
@@ -104,6 +127,21 @@ function updateCurrentTeamUI() {
 
   const color = teamColors[currentTeam];
   teamEl.style.color = color;
+}
+
+function showFeedback(isCorrect) {
+  const teamEl = document.getElementById("current-team");
+
+  if (isCorrect) {
+    teamEl.classList.add("correct");
+  } else {
+    teamEl.classList.add("wrong");
+  }
+
+  setTimeout(() => {
+    teamEl.classList.remove("correct");
+    teamEl.classList.remove("wrong");
+  }, 1000);
 }
 
 // ===== GAME STATE =====
