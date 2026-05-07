@@ -5,6 +5,7 @@ let model, webcam, labelContainer, maxPredictions;
 let detectedTeam = null;
 let cooldownActive = false;
 
+
 const TEAM_CHANGE_DELAY = 2000; // 2 seconden
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
@@ -97,7 +98,6 @@ async function predict() {
     }
 
     gameState = "cooldown";
-    lastScoreTime = now;
   }
 
   // Cooldown: wachten tot object weg is
@@ -199,7 +199,11 @@ function startGame() {
 function endGame() {
   gameState = "gameover";
 
-  alert("Game Over!\nYour score: " + score);
+  const gameOverEl = document.getElementById("game-over");
+  const finalScoreEl = document.getElementById("final-score");
+
+  finalScoreEl.innerText = "Your final score: " + score;
+  gameOverEl.style.display = "block";
 
   // hier kan je later:
   // - QR-code tonen
