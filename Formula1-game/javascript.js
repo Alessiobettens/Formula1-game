@@ -5,8 +5,6 @@ let model, webcam, labelContainer, maxPredictions;
 let detectedTeam = null;
 let cooldownActive = false;
 
-let lastScoreTime = 0;
-const SCORE_COOLDOWN_MS = 1000;
 const TEAM_CHANGE_DELAY = 2000; // 2 seconden
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
@@ -52,7 +50,6 @@ async function loop() {
 async function predict() {
   const prediction = await model.predict(webcam.canvas);
 
-  let detectedTeam = null;
   let bestProb = 0;
 
   for (let i = 0; i < maxPredictions; i++) {
@@ -67,7 +64,7 @@ async function predict() {
   }
 
   const detectEl = document.getElementById("detected-team");
-  if (bestProb > 0.5) {
+  if (bestProb > 0.8) {
     detectEl.innerText =
       "Detected: " + detectedTeam + " (" + bestProb.toFixed(2) + ")";
     console.log(
@@ -100,7 +97,7 @@ async function predict() {
     }
 
     gameState = "cooldown";
-    //lastScoreTime = now;
+    lastScoreTime = now;
   }
 
   // Cooldown: wachten tot object weg is
