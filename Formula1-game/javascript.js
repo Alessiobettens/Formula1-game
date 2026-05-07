@@ -37,6 +37,8 @@ async function init() {
   for (let i = 0; i < maxPredictions; i++) {
     labelContainer.appendChild(document.createElement("div"));
   }
+
+  updateCurrentTeamUI();
 }
 
 async function loop() {
@@ -82,13 +84,16 @@ async function predict() {
   }
 }
 
-
 function pickNewTeam() {
   const randomIndex = Math.floor(Math.random() * teams.length);
   currentTeam = teams[randomIndex];
+  updateCurrentTeamUI();
 }
 
-
+function updateCurrentTeamUI() {
+  const teamEl = document.getElementById("current-team");
+  teamEl.innerText = "Current team: " + currentTeam;
+}
 
 // ===== GAME STATE =====
 let gameState = "intro";
