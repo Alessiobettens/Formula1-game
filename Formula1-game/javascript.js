@@ -101,6 +101,9 @@ function pickNewTeam() {
 function updateCurrentTeamUI() {
   const teamEl = document.getElementById("current-team");
   teamEl.innerText = "Current team: " + currentTeam;
+
+  const color = teamColors[currentTeam];
+  teamEl.style.color = color;
 }
 
 // ===== GAME STATE =====
