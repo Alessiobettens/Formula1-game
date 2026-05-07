@@ -9,6 +9,8 @@ const SCORE_COOLDOWN_MS = 2000;
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
 
+const teams = ["Ferrari", "RedBull", "Mercedes", "McLaren"];
+
 // ===== TEAM COLORS =====
 const teamColors = {
   Ferrari: "red",
@@ -65,10 +67,11 @@ async function predict() {
 
   // Playing: score verhogen
   if (gameState === "playing" && detectedTeam !== null) {
-    if (detectedTeam === currentTeam){
+    if (detectedTeam === currentTeam) {
       score++;
       updateScore();
     }
+    pickNewTeam();
     //lastScoreTime = now;
     gameState = "cooldown";
   }
@@ -78,6 +81,14 @@ async function predict() {
     gameState = "playing";
   }
 }
+
+
+function pickNewTeam() {
+  const randomIndex = Math.floor(Math.random() * teams.length);
+  currentTeam = teams[randomIndex];
+}
+
+
 
 // ===== GAME STATE =====
 let gameState = "intro";
