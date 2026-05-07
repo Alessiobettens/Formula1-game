@@ -3,9 +3,11 @@ const URL = "./tm-model/";
 
 let model, webcam, labelContainer, maxPredictions;
 let detectedTeam = null;
+let cooldownActive = false;
 
 let lastScoreTime = 0;
 const SCORE_COOLDOWN_MS = 2000;
+const TEAM_CHANGE_DELAY = 3000; // 3 seconden
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
 
@@ -56,7 +58,7 @@ async function predict() {
     labelContainer.childNodes[i].innerHTML =
       prediction[i].className + ": " + prediction[i].probability.toFixed(2);
 
-    if (prediction[i].probability > 0.9) {
+    if (prediction[i].probability > 0.8) {
       detectedTeam = prediction[i].className;
     }
   }
@@ -73,14 +75,20 @@ async function predict() {
       score++;
       updateScore();
     }
-    pickNewTeam();
-    //lastScoreTime = now;
+
     gameState = "cooldown";
+    //lastScoreTime = now;
   }
 
   // Cooldown: wachten tot object weg is
-  if (gameState === "cooldown" && detectedTeam === null) {
-    gameState = "playing";
+  if (gameState === "cooldown" && detectedTeam === null && !cooldownActive) {
+    cooldownActive = true;
+
+    setTimeout(() => {
+      pickNewTeam();
+      gameState = "playing";
+      cooldownActive = false;
+    }, TEAM_CHANGE_DELAY);
   }
 }
 
