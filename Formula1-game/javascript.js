@@ -5,7 +5,6 @@ let model, webcam, labelContainer, maxPredictions;
 let detectedTeam = null;
 let cooldownActive = false;
 
-
 const TEAM_CHANGE_DELAY = 2000; // 2 seconden
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
@@ -205,9 +204,23 @@ function endGame() {
   finalScoreEl.innerText = "Your final score: " + score;
   gameOverEl.style.display = "block";
 
-  // hier kan je later:
-  // - QR-code tonen
-  // - eindscore opslaan
+  setTimeout(() => {
+    resetGame();
+  }, 10000);
+}
+
+function resetGame() {
+  gameState = "intro";
+
+  // score reset
+  score = 0;
+  updateScore();
+
+  // Game Over verbergen
+  document.getElementById("game-over").style.display = "none";
+
+  // nieuw team
+  pickNewTeam();
 }
 
 // ===== SCORE UPDATEN =====
