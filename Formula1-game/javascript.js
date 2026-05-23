@@ -199,14 +199,22 @@ function endGame() {
   gameState = "gameover";
 
   const gameOverEl = document.getElementById("game-over");
-  const finalScoreEl = document.getElementById("final-score");
 
-  finalScoreEl.innerText = "Your final score: " + score;
   gameOverEl.style.display = "block";
+  showEndScore();
 
   setTimeout(() => {
     resetGame();
   }, 10000);
+}
+
+function showEndScore() {
+  const finalScoreEl = document.getElementById("final-score");
+
+  finalScoreEl.innerHTML =
+    "Your score: " + score + "<br>Top score: 12" + "<br>You placed #2";
+
+  finalScoreEl.style.display = "block";
 }
 
 function resetGame() {
