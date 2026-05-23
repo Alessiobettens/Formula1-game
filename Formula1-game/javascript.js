@@ -3,6 +3,7 @@ const URL = "./tm-model/";
 
 let model, webcam, labelContainer, maxPredictions;
 let detectedTeam = null;
+let currentDriver = null;
 let cooldownActive = false;
 
 const TEAM_CHANGE_DELAY = 2000; // 2 seconden
@@ -18,6 +19,38 @@ const teamColors = {
   Mercedes: "turquoise",
   McLaren: "orange",
 };
+
+// ===== F1-riders =====
+const drivers = [
+  // ===== FERRARI =====
+  { name: "Charles Leclerc", team: "Ferrari", img: "images/leclerc.jpg" },
+  { name: "Lewis Hamilton", team: "Ferrari", img: "images/hamilton.jpg" },
+  { name: "Niki Lauda", team: "Ferrari", img: "images/lauda.jpg" },
+  { name: "Michael Schumacher", team: "Ferrari", img: "images/schumacher.jpg" },
+  { name: "Ferrari Car", team: "Ferrari", img: "images/ferrari_car.jpg" },
+
+  // ===== MERCEDES =====
+  { name: "George Russell", team: "Mercedes", img: "images/russell.jpg" },
+  { name: "Kimi Antonelli", team: "Mercedes", img: "images/antonelli.jpg" },
+  { name: "Juan Manuel Fangio", team: "Mercedes", img: "images/fangio.jpg" },
+  { name: "Nico Rosberg", team: "Mercedes", img: "images/rosberg.jpg" },
+  { name: "Mercedes Car", team: "Mercedes", img: "images/mercedes_car.jpg" },
+
+  // ===== RED BULL =====
+  { name: "Max Verstappen", team: "RedBull", img: "images/verstappen.jpg" },
+  { name: "Mark Webber", team: "RedBull", img: "images/webber.jpg" },
+  { name: "Sebastian Vettel", team: "RedBull", img: "images/vettel.jpg" },
+  { name: "Isack Hadjar", team: "RedBull", img: "images/hadjar.jpg" },
+  { name: "RedBull Car", team: "RedBull", img: "images/redbull_car.jpg" },
+
+  // ===== McLAREN =====
+  { name: "Lando Norris", team: "McLaren", img: "images/norris.jpg" },
+  { name: "Oscar Piastri", team: "McLaren", img: "images/piastri.jpg" },
+  { name: "James Hunt", team: "McLaren", img: "images/hunt.jpg" },
+  { name: "Ayrton Senna", team: "McLaren", img: "images/senna.jpg" },
+  { name: "McLaren Car", team: "McLaren", img: "images/mclaren_car.jpg" }
+];
+
 
 async function init() {
   const modelURL = URL + "model.json";
@@ -104,18 +137,13 @@ async function predict() {
     cooldownActive = true;
 
     setTimeout(() => {
-      pickNewTeam();
+      pickNewDriver()
       gameState = "playing";
       cooldownActive = false;
     }, TEAM_CHANGE_DELAY);
   }
 }
 
-function pickNewTeam() {
-  const randomIndex = Math.floor(Math.random() * teams.length);
-  currentTeam = teams[randomIndex];
-  updateCurrentTeamUI();
-}
 
 function updateCurrentTeamUI() {
   const teamEl = document.getElementById("current-team");
@@ -139,6 +167,25 @@ function showFeedback(isCorrect) {
     teamEl.classList.remove("wrong");
   }, 1000);
 }
+
+
+function pickNewDriver() {
+  const randomIndex = Math.floor(Math.random() * drivers.length);
+  currentDriver = drivers[randomIndex];
+
+  currentTeam = currentDriver.team;
+
+  updateCurrentTeamUI();
+  updateDriverUI();
+}
+
+
+function updateDriverUI() {
+  const img = document.getElementById("driver-img");
+  img.src = currentDriver.img;
+}
+
+
 
 // ===== GAME STATE =====
 let gameState = "intro";
@@ -223,8 +270,8 @@ function resetGame() {
   document.getElementById("game-over").style.display = "none";
   document.getElementById("final-score").style.display = "none";
 
-  // nieuw team
-  pickNewTeam();
+  // nieuw piloot
+  pickNewDriver()
 }
 
 // ===== SCORE UPDATEN =====
