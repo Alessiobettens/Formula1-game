@@ -201,11 +201,6 @@ function endGame() {
   const gameOverEl = document.getElementById("game-over");
 
   gameOverEl.style.display = "block";
-  showEndScore();
-
-  setTimeout(() => {
-    resetGame();
-  }, 10000);
 }
 
 function showEndScore() {
@@ -226,6 +221,7 @@ function resetGame() {
 
   // Game Over verbergen
   document.getElementById("game-over").style.display = "none";
+  document.getElementById("final-score").style.display = "none";
 
   // nieuw team
   pickNewTeam();
