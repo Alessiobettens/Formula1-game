@@ -1,1 +1,1 @@
-{"tfjsVersion":"1.7.4","tmVersion":"2.4.13","packageVersion":"0.8.4-alpha2","packageName":"@teachablemachine/image","timeStamp":"2026-05-01T16:31:48.133Z","userMetadata":{},"modelName":"tm-my-image-model","labels":["Ferrari","Mercedes","Mclaren","Redbull"],"imageSize":224}
+{"tfjsVersion":"1.7.4","tmVersion":"2.4.14","packageVersion":"0.8.4-alpha2","packageName":"@teachablemachine/image","timeStamp":"2026-05-24T12:05:18.273Z","userMetadata":{},"modelName":"tm-my-image-model","labels":["ferrari","mclaren","mercedes","redbull"],"imageSize":224}

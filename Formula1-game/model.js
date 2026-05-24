@@ -47,7 +47,7 @@ async function predict() {
   }
 
   const detectEl = document.getElementById("detected-team");
-  if (bestProb > 0.8) {
+  if (bestProb > 0.75) {
     detectEl.innerText =
       "Detected: " + detectedTeam + " (" + bestProb.toFixed(2) + ")";
   } else {
