@@ -70,3 +70,18 @@ button:hover {
 #time {
   border: 2px solid orange;
 }
+
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+#webcam-container canvas {
+  width: 250px;
+  border-radius: 12px;
+  border: 4px solid white;
+}
