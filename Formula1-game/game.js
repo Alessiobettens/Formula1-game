@@ -47,6 +47,12 @@ const drivers = [
   },
 ];
 
+let remainingDrivers = [...drivers];
+
+function resetDriverPool() {
+  remainingDrivers = [...drivers];
+}
+
 function updateCurrentTeamUI() {
   const teamEl = document.getElementById("current-team");
   teamEl.innerText = "Current team: " + currentTeam;
@@ -69,8 +75,12 @@ function showFeedback(isCorrect) {
 }
 
 function pickNewDriver() {
-  const randomIndex = Math.floor(Math.random() * drivers.length);
-  currentDriver = drivers[randomIndex];
+  if (remainingDrivers.length === 0) {
+    resetDriverPool();
+  }
+
+  const randomIndex = Math.floor(Math.random() * remainingDrivers.length);
+  currentDriver = remainingDrivers.splice(randomIndex, 1)[0];
   currentTeam = currentDriver.team;
 
   updateCurrentTeamUI();
@@ -115,7 +125,9 @@ function startGame() {
   gameTime = 60;
   score = 0;
 
+  resetDriverPool();
   updateScore();
+  pickNewDriver();
 
   const timeEl = document.getElementById("time");
   timeEl.innerText = "Time left: 60s";
@@ -155,6 +167,8 @@ function resetGame() {
   document.getElementById("game-over").style.display = "none";
   document.getElementById("final-score").style.display = "none";
 
+  document.getElementById("current-team").classList.remove("hidden");
+  resetDriverPool();
   pickNewDriver();
 }
 
