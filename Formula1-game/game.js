@@ -4,6 +4,7 @@ let currentDriver = null;
 let cooldownActive = false;
 let cooldownTimeoutId = null;
 const TEAM_CHANGE_DELAY = 2000; // 2 seconden
+const RECORD_SCORE_KEY = "formula1gameRecordScore";
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
 
@@ -152,11 +153,44 @@ function endGame() {
   const gameOverEl = document.getElementById("game-over");
   gameOverEl.style.display = "block";
 }
+showEndScore();
+
+function getRecordScore() {
+  try {
+    const raw = localStorage.getItem(RECORD_SCORE_KEY);
+    return raw ? Number(raw) : 0;
+  } catch (err) {
+    return 0;
+  }
+}
+
+function saveRecordScore(newScore) {
+  try {
+    localStorage.setItem(RECORD_SCORE_KEY, String(newScore));
+  } catch (err) {
+    // ignore localStorage errors
+  }
+}
 
 function showEndScore() {
+  const recordScore = getRecordScore();
+  const isNewRecord = score > recordScore;
+  const finalRecord = isNewRecord ? score : recordScore;
+
+  if (isNewRecord) {
+    saveRecordScore(score);
+  }
+
   const finalScoreEl = document.getElementById("final-score");
   finalScoreEl.innerHTML =
-    "Your score: " + score + "<br>Top score: 12" + "<br>You placed #2";
+    "Your score: " +
+    score +
+    "<br>Record score: " +
+    finalRecord +
+    (isNewRecord ? "<br><strong>Nieuw record!</strong>" : "") +
+    "<br>" +
+    "Je plaats: " +
+    (isNewRecord ? "Nieuwe recordscore!" : "Score blijft onder record");
   finalScoreEl.style.display = "block";
 }
 
