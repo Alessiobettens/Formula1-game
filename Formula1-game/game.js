@@ -2,6 +2,7 @@
 let detectedTeam = null;
 let currentDriver = null;
 let cooldownActive = false;
+let cooldownTimeoutId = null;
 const TEAM_CHANGE_DELAY = 2000; // 2 seconden
 
 let currentTeam = "Ferrari"; // tijdelijk vast, later wisselen
@@ -170,6 +171,10 @@ function resetGame() {
   document.getElementById("current-team").classList.remove("hidden");
   resetDriverPool();
   pickNewDriver();
+
+  if (animationId === null && typeof window !== "undefined") {
+    animationId = window.requestAnimationFrame(loop);
+  }
 }
 
 function updateScore() {

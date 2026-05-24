@@ -2,6 +2,7 @@
 const URL = "./tm-model/";
 let model, webcam, labelContainer, maxPredictions;
 let driverLocked = false;
+let animationId = null;
 
 function normalizeTeamName(teamName) {
   return teamName?.toString().toLowerCase().replace(/\s+/g, "") || "";
@@ -15,9 +16,20 @@ async function init() {
   maxPredictions = model.getTotalClasses();
 
   webcam = new tmImage.Webcam(200, 200, true);
-  await webcam.setup();
-  await webcam.play();
-  window.requestAnimationFrame(loop);
+  try {
+    await webcam.setup();
+    await webcam.play();
+    animationId = window.requestAnimationFrame(loop);
+  } catch (err) {
+    console.error("Webcam setup failed:", err);
+    const detectEl = document.getElementById("detected-team");
+    if (detectEl) {
+      detectEl.innerText = "Camera error: " + (err.message || err);
+    } else {
+      alert("Camera error: " + (err.message || err));
+    }
+    return;
+  }
 
   document.getElementById("webcam-container").appendChild(webcam.canvas);
   labelContainer = document.getElementById("label-container");
@@ -32,7 +44,11 @@ async function init() {
 async function loop() {
   webcam.update();
   await predict();
-  window.requestAnimationFrame(loop);
+  if (gameState !== "gameover") {
+    animationId = window.requestAnimationFrame(loop);
+  } else {
+    animationId = null;
+  }
 }
 
 async function predict() {
