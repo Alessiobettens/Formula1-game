@@ -1,12 +1,15 @@
 .correct {
-  background-color: #8cff8c; /* lichtgroen */
+  background-color: #8cff8c;
   border: 2px solid green;
+  transition: 0.3s;
 }
 
 .wrong {
-  background-color: #ff9c9c; /* lichtrood */
+  background-color: #ff9c9c;
   border: 2px solid red;
+  transition: 0.3s;
 }
+
 
 .hidden {
   display: none;
@@ -94,7 +97,48 @@ button:hover {
 }
 
 p {
-  max-width: 400px;
+  max-width: 500px;
   margin: 20px auto;
   line-height: 1.5;
+  color: black;
+  background-color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
 }
+
+
+#countdown {
+  font-size: 30px;
+  margin-top: 20px;
+  color: yellow;
+}
+
+
+
+#final-score {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #1a1a1a;
+  border-radius: 15px;
+  line-height: 1.6;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+
+#final-score strong {
+  color: gold;
+  font-size: 22px;
+}
+
+
+#final-score br {
+  margin-bottom: 8px;
+}
+
+

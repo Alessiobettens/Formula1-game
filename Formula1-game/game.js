@@ -182,15 +182,16 @@ function showEndScore() {
   }
 
   const finalScoreEl = document.getElementById("final-score");
-  finalScoreEl.innerHTML =
-    "Your score: " +
-    score +
-    "<br>Record score: " +
-    finalRecord +
-    (isNewRecord ? "<br><strong>Nieuw record!</strong>" : "") +
-    "<br>" +
-    "Je plaats: " +
-    (isNewRecord ? "Nieuwe recordscore!" : "Score blijft onder record");
+
+  finalScoreEl.innerHTML = `
+    <div class="score-line">🏁 Your score: ${score}</div>
+    <div class="score-line">🏆 Record score: ${finalRecord}</div>
+    ${isNewRecord ? '<div class="score-line record">🔥 New record!</div>' : ""}
+    <div class="score-line">📊 Your rank: ${
+      isNewRecord ? "New high score!" : "Below record"
+    }</div>
+  `;
+
   finalScoreEl.style.display = "block";
 }
 
