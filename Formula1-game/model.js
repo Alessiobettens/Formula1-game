@@ -56,25 +56,33 @@ async function loop() {
 
 async function predict() {
   const prediction = await model.predict(webcam.canvas);
-  let bestProb = 0;
 
+  let bestProb = 0;
+  let bestClass = null;
+
+  // ✅ Zoek beste voorspelling
   for (let i = 0; i < maxPredictions; i++) {
     const prob = prediction[i].probability;
+
     labelContainer.childNodes[i].innerHTML =
       prediction[i].className + ": " + prob.toFixed(2);
 
     if (prob > bestProb) {
       bestProb = prob;
-      detectedTeam = prediction[i].className;
+      bestClass = prediction[i].className;
     }
   }
 
   const detectEl = document.getElementById("detected-team");
 
+  // ✅ Stabiliteit: reset pas als echt nodig
   if (bestProb > 0.7) {
     detectionCount++;
 
+    // ✅ Pas toekennen NA voldoende frames
     if (detectionCount >= REQUIRED_DETECTIONS) {
+      detectedTeam = bestClass;
+
       detectEl.innerText =
         "Detected: " + detectedTeam + " (" + bestProb.toFixed(2) + ")";
     } else {
@@ -83,16 +91,27 @@ async function predict() {
   } else {
     detectionCount = 0;
     detectedTeam = null;
+
     detectEl.innerText = "Detected: geen team (" + bestProb.toFixed(2) + ")";
   }
 
+  // ===== GAME FLOW =====
+
+  // ✅ Intro → countdown
   if (gameState === "intro" && detectedTeam !== null) {
     gameState = "countdown";
     startCountdown();
   }
 
-  if (gameState === "playing" && detectedTeam !== null && !driverLocked) {
+  // ✅ Playing → score (maar pas NA stabiele detectie)
+  if (
+    gameState === "playing" &&
+    detectedTeam !== null &&
+    !driverLocked &&
+    detectionCount >= REQUIRED_DETECTIONS
+  ) {
     driverLocked = true;
+
     if (normalizeTeamName(detectedTeam) === normalizeTeamName(currentTeam)) {
       score++;
       updateScore();
@@ -104,6 +123,7 @@ async function predict() {
     gameState = "cooldown";
   }
 
+  // ✅ Cooldown → nieuwe driver
   if (gameState === "cooldown" && detectedTeam === null && !cooldownActive) {
     cooldownActive = true;
 
@@ -112,6 +132,7 @@ async function predict() {
       gameState = "playing";
       cooldownActive = false;
       driverLocked = false;
+      detectionCount = 0; // ✅ reset stabiliteit
     }, TEAM_CHANGE_DELAY);
   }
 }
