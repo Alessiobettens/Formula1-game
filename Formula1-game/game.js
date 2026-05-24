@@ -40,10 +40,12 @@ const drivers = [
   { name: "Oscar Piastri", team: "McLaren", img: "images/piastri.jpg" },
   { name: "James Hunt", team: "McLaren", img: "images/hunt.jpg" },
   { name: "Ayrton Senna", team: "McLaren", img: "images/senna.jpg" },
-  { name: "Verenigd Koninkrijk", team: "McLaren", img: "images/verenigd_koninkrijk.jpg" },
+  {
+    name: "Verenigd Koninkrijk",
+    team: "McLaren",
+    img: "images/verenigd_koninkrijk.jpg",
+  },
 ];
-
-
 
 function updateCurrentTeamUI() {
   const teamEl = document.getElementById("current-team");
@@ -127,10 +129,13 @@ function startGame() {
       endGame();
     }
   }, 1000);
+
+  document.getElementById("current-team").classList.add("hidden");
 }
 
 function endGame() {
   gameState = "gameover";
+  document.getElementById("current-team").classList.remove("hidden");
   const gameOverEl = document.getElementById("game-over");
   gameOverEl.style.display = "block";
 }

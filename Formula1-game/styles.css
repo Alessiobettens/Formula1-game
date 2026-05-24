@@ -7,3 +7,7 @@
   background-color: #ff9c9c; /* lichtrood */
   border: 2px solid red;
 }
+
+.hidden {
+  display: none;
+}
