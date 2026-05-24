@@ -1,6 +1,7 @@
 // ===== TEACHABLE MACHINE =====
 const URL = "./tm-model/";
 let model, webcam, labelContainer, maxPredictions;
+let driverLocked = false;
 
 async function init() {
   const modelURL = URL + "model.json";
@@ -59,7 +60,8 @@ async function predict() {
     startCountdown();
   }
 
-  if (gameState === "playing" && detectedTeam !== null) {
+  if (gameState === "playing" && detectedTeam !== null && !driverLocked) {
+    driverLocked = true;
     if (detectedTeam === currentTeam) {
       score++;
       updateScore();
@@ -78,6 +80,7 @@ async function predict() {
       pickNewDriver();
       gameState = "playing";
       cooldownActive = false;
+      driverLocked = false;
     }, TEAM_CHANGE_DELAY);
   }
 }
