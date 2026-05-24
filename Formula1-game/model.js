@@ -4,6 +4,9 @@ let model, webcam, labelContainer, maxPredictions;
 let driverLocked = false;
 let animationId = null;
 
+let detectionCount = 0;
+const REQUIRED_DETECTIONS = 3;
+
 function normalizeTeamName(teamName) {
   return teamName?.toString().toLowerCase().replace(/\s+/g, "") || "";
 }
@@ -67,10 +70,18 @@ async function predict() {
   }
 
   const detectEl = document.getElementById("detected-team");
-  if (bestProb > 0.75) {
-    detectEl.innerText =
-      "Detected: " + detectedTeam + " (" + bestProb.toFixed(2) + ")";
+
+  if (bestProb > 0.7) {
+    detectionCount++;
+
+    if (detectionCount >= REQUIRED_DETECTIONS) {
+      detectEl.innerText =
+        "Detected: " + detectedTeam + " (" + bestProb.toFixed(2) + ")";
+    } else {
+      detectEl.innerText = "Hold steady...";
+    }
   } else {
+    detectionCount = 0;
     detectedTeam = null;
     detectEl.innerText = "Detected: geen team (" + bestProb.toFixed(2) + ")";
   }
