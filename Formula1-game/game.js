@@ -43,6 +43,8 @@ const drivers = [
   { name: "Verenigd Koninkrijk", team: "McLaren", img: "images/verenigd_koninkrijk.jpg" },
 ];
 
+
+
 function updateCurrentTeamUI() {
   const teamEl = document.getElementById("current-team");
   teamEl.innerText = "Current team: " + currentTeam;
