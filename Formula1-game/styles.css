@@ -10,7 +10,6 @@
   transition: 0.3s;
 }
 
-
 .hidden {
   display: none;
 }
@@ -107,14 +106,11 @@ p {
   border-radius: 8px;
 }
 
-
 #countdown {
   font-size: 30px;
   margin-top: 20px;
   color: yellow;
 }
-
-
 
 #final-score {
   display: none;
@@ -130,15 +126,11 @@ p {
   text-align: center;
 }
 
-
 #final-score strong {
   color: gold;
   font-size: 22px;
 }
 
-
 #final-score br {
   margin-bottom: 8px;
 }
-
-
