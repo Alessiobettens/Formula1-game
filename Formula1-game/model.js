@@ -3,6 +3,10 @@ const URL = "./tm-model/";
 let model, webcam, labelContainer, maxPredictions;
 let driverLocked = false;
 
+function normalizeTeamName(teamName) {
+  return teamName?.toString().toLowerCase().replace(/\s+/g, "") || "";
+}
+
 async function init() {
   const modelURL = URL + "model.json";
   const metadataURL = URL + "metadata.json";
@@ -62,7 +66,7 @@ async function predict() {
 
   if (gameState === "playing" && detectedTeam !== null && !driverLocked) {
     driverLocked = true;
-    if (detectedTeam === currentTeam) {
+    if (normalizeTeamName(detectedTeam) === normalizeTeamName(currentTeam)) {
       score++;
       updateScore();
       showFeedback(true);
