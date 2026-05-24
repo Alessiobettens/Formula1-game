@@ -84,7 +84,7 @@ function updateDriverUI() {
 let gameState = "intro";
 let startCountdownTime = 5;
 let startCountdownInterval = null;
-let gameTime = 30;
+let gameTime = 60;
 let gameTimerInterval = null;
 let score = 0;
 
@@ -110,13 +110,13 @@ function startCountdown() {
 
 function startGame() {
   gameState = "playing";
-  gameTime = 30;
+  gameTime = 60;
   score = 0;
 
   updateScore();
 
   const timeEl = document.getElementById("time");
-  timeEl.innerText = "Time left: 30s";
+  timeEl.innerText = "Time left: 60s";
 
   gameTimerInterval = setInterval(() => {
     gameTime--;
